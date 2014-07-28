@@ -1,0 +1,45 @@
+{% extends 'bootstrap3/bootstrap3.html' %}
+
+{% comment "readme" %}
+    This template is base_homepage.html
+    This is the base (parent) template that will get used by all other pages/templates
+        * base_homepage CSS and JS should also include only necessary generic code that
+          all other templates need, nothing specific to a page.
+        * base_homepage HTML will include only the header and footer
+    This template must include template tags without any contents, as content will be
+    filled when its inherited by child templates
+    
+    Parent Template to:     all other templates created by dev team
+    Child Template to:      bootstrap3
+{% endcomment %}
+
+{# Importing necessary templates #}
+{% load static %}
+{% load url from future %}
+{% load bootstrap3 %}
+
+{% block bootstrap3_title %}{% block base_homepage_title %}{% endblock base_homepage_title %}{% endblock bootstrap3_title %}
+{% block bootstrap3_extra_head %}
+    {# Concatenate: http://stackoverflow.com/a/16656232/558397 #}
+    <!-- Fonts -->
+    <!-- Common CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static ''|add:SITE_NAME|add:'/css/base_homepage.css' %}" />
+    {% block base_homepage_extra_head %}{% endblock base_homepage_extra_head %}
+{% endblock bootstrap3_extra_head %}
+
+{% block bootstrap3_content %}
+    {% block base_homepage_content_header %}{% endblock base_homepage_content_header %}
+    {% block base_homepage_content_body %}{% endblock base_homepage_content_body %}
+{% endblock bootstrap3_content %}
+{% block bootstrap3_extra_script %}
+    {% block base_homepage_extra_script %}{% endblock base_homepage_extra_script %}
+{% endblock bootstrap3_extra_script %}
+{% block bootstrap3_footer %}
+    {% block base_homepage_content_footer %}
+    <!-- Footer -->
+    <div class="footerWrapper">
+    </div><!-- End Footer -->
+    <script type="text/javascript">
+    </script>
+    {% endblock base_homepage_content_footer %}
+{% endblock bootstrap3_footer %}
