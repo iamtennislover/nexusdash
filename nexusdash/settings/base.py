@@ -2,6 +2,14 @@
 Source: https://github.com/twoscoops/django-twoscoops-project
 """
 
+########## CELERY CONFIGURATION (1)
+from __future__ import absolute_import
+# ^^^ The above is required if you want to import from the celery
+# library.  If you don't have this then `from celery.schedules import`
+# becomes `proj.celery.schedules` in Python 2.x since it allows
+# for relative imports by default.
+########## END CELERY CONFIGURATION (1)
+
 from os.path import abspath, basename, dirname, join, normpath
 from os import environ
 from sys import path
@@ -268,18 +276,62 @@ INSTALLED_APPS += (
 )
 ########## END DJANGO-NVD3 CONFIGURATION
 
-########## DJANGO_BOOTSTRAP3 CONFIGURATION
-# See: http://django-bootstrap3.readthedocs.org/en/latest/readme.html
+########## CELERY CONFIGURATION (2)
+# Celery settings: http://docs.celeryproject.org/en/latest/django/first-steps-with-django.html
+BROKER_URL = 'django://'
+
+#: Only add pickle to this list if your broker is secured
+#: from unwanted access (see userguide/security.html)
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+
 INSTALLED_APPS += (
-    'bootstrap3',
+    'kombu.transport.django',   # http://docs.celeryproject.org/en/latest/getting-started/brokers/django.html#broker-django
+    'djcelery',
 )
 
-# Settings for django-bootstrap3
-BOOTSTRAP3 = {
-    'set_required': False,
-    'form_error_class': 'bootstrap3-error',
-    'form_required_class': 'bootstrap3-required',
-    # Defaults to False and script block with js are in body
-    #'javascript_in_head': True,
+# Periodic Task
+## http://celery.readthedocs.org/en/latest/userguide/periodic-tasks.html#crontab-schedules
+from celery.schedules import crontab
+
+CELERYBEAT_SCHEDULE = {
+    'poll_nexus-every-minute': {
+        'task': 'cpu_app.tasks.poll_nexus',
+        'schedule': crontab(minute='*'),
+        #'args': (16, 16)
+    },
 }
-########## END DJANGO_BOOTSTRAP3 CONFIGURATION
+CELERY_TIMEZONE = 'UTC'
+########## END CELERY CONFIGURATION (2)
+
+########## SOUTH CONFIGURATION
+# See: http://south.readthedocs.org/en/latest/installation.html#configuring-your-django-installation
+INSTALLED_APPS += (
+    # Database migration helpers:
+    'south',
+)
+# Don't need to use South when setting up a test database.
+SOUTH_TESTS_MIGRATE = False
+########## END SOUTH CONFIGURATION
+
+####################  MY APPS CONFIGURATION
+D3_PY_TIME_DIFF = 1000
+########## HOSTNAMES CONFIGURATION
+INSTALLED_APPS += (
+    'hostnames',
+)
+########## END HOSTNAMES CONFIGURATION
+
+########## CPUAPP CONFIGURATION
+INSTALLED_APPS += (
+    'cpu_app',
+)
+########## END CPUAPP CONFIGURATION
+
+########## DASHBOARDPERDEVICE CONFIGURATION
+INSTALLED_APPS += (
+    'dashboardperdevice',
+)
+########## END DASHBOARDPERDEVICE CONFIGURATION
+####################  END MY APPS CONFIGURATION

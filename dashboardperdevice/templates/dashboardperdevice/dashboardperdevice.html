@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% comment "readme" %}
+    This template is dashboardperdevice.html
+    This serves the dashboard per device
+    
+    Parent Template to:     None
+    Child Template to:      base_homepage.html
+{% endcomment %}
+
+{# Importing necessary templates #}
+{% load static %}
+
+{# <head> #}
+    {% block base_homepage_title %}{{SITE_NAME}}{% endblock base_homepage_title %}
+    {% block base_homepage_extra_head %}
+    <!-- index.html CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static ''|add:SITE_NAME|add:'/css/dashboardperdevice.css' %}" />
+    {% endblock base_homepage_extra_head %}
+{# </head> #}
+
+{# <body> #}
+
+    {# <content> #}
+    {# </content> #}
+	
+    {# <js> #}
+    {% block dashboard_specific_js %}<script src="{% static ''|add:SITE_NAME|add:'/js/dashboard.perdevice.js' %}" type="text/javascript"></script>{% endblock dashboard_specific_js %}
+    {% block base_homepage_extra_script %}
+    <!-- JS Page specific -->
+    <script src="{% static ''|add:SITE_NAME|add:'/js/dashboardperdevice.js' %}"></script>
+    {% endblock base_homepage_extra_script %}
+    {# </js> #}
+    
+{# </body> #}
