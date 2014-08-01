@@ -39,3 +39,6 @@ tramp
 Thumbs.db
 Desktop.ini
 /demo
+/celerybeat-schedule
+/cpu_app/
+/test_app/
