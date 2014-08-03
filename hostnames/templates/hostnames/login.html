@@ -18,7 +18,7 @@
               <form id="signin-form" method="post">
                 {% csrf_token %}
                 <div class="controls-row control-group">
-                    <input type="url" class="form-control" id="url" placeholder="URL of device: e.g http://N9K1.com/ins" name="url">
+                    <input type="url" class="form-control" id="url" title="Provide URL with following format: telnet|http(s)|ssh://hostname|hostip(:portno)(/loc)" placeholder="URL of device: e.g http://N9K1/ins" name="url">
                 </div>
                 <div class="controls-row control-group">
                     <input type="text" class="form-control" id="username" placeholder="Username" name="username">

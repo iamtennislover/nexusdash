@@ -93,6 +93,17 @@ function submitForm(form) {
  * Define Validation Rules for signin
  * 
 */
+// Overriding Valid URL to include telnet, ssh and allow hostname
+//// http://stackoverflow.com/a/14277830/558397
+//// Basic validation is done here. Actual validation is done in backend
+jQuery.validator.methods.url = function(value, element) {
+    return this.optional(element) || true;
+};
+jQuery.validator.addMethod("url",function(value,element) {
+  return this.optional(element) 
+     || /^((https|http|ssh|telnet):\/\/)?([\da-z\.-:_]+)([\/\w \.-]*)*\/?$/.test(value); 
+},"Please enter a valid URL");
+
 $(document).ready(function(){
 	// Validate
 	// http://bassistance.de/jquery-plugins/jquery-plugin-validation/
