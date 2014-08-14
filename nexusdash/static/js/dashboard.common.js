@@ -105,19 +105,27 @@ var dashboard = {};
 
 function moduleData(module, onData) {
     var module_url = 'query?module=';
-
+    
+    if (module != 'overallhealth') {
+    	var spinner = new Spinner().spin();
+    	module_table = $("#table-" + module)
+    	if (module_table.length) {
+    		module_table.html('<tbody><tr><td style="height: 120px"><span style="position: absolute;display: block;top: 50%;left: 50%;">' + $(spinner.el).html() + '</span></td></tr></tbody>');
+    	}
+    }
+    INTSTATS_GRAPH_DATA = '';	// Initialize graph data
     $.getJSON(module_url + module)
     .done(function(data) {
         if (data.error) {
             console.log('Module error [' + module + ']', data.error);
         } else {
-            onData(data.data);
+            onData(data);
         }
     });
 }
 
 dashboard.fillElement = function(module, $el){
     moduleData(module, function(data) {
-        $el.text(data);
+        $el.text(data.data);
     });
 }

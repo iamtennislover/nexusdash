@@ -16,7 +16,7 @@ class MyURLValidator(validators.URLValidator):
     regex = re.compile(
         r'^(?:http|https|ssh|telnet)://'        ## r'^(?:http|ftp)s?://'  # http:// or https://
         r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|'  # domain...
-        r'\w+|'                           ## r'localhost|'  # localhost...
+        r'[\w\-]+|'                           ## r'localhost|'  # localhost...
         r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|'  # ...or ipv4
         r'\[?[A-F0-9]*:[A-F0-9:]+\]?)'  # ...or ipv6
         r'(?::\d+)?'  # optional port
@@ -34,9 +34,10 @@ class LoginForm(forms.ModelForm):
     """
     Form for login.
     """
-    url = forms.URLField(required=True, min_length=5, max_length=30)
-    username = forms.CharField(label='Username', required=True, min_length=5, max_length=30)
-    password = forms.CharField(label='Password', widget=forms.PasswordInput, required=True, min_length=5, max_length=30)
+    url = MyURLField(required=True, min_length=5, max_length=30)
+    username = forms.RegexField(label='Username', required=True, min_length=3, max_length=30, regex = re.compile(r'^[\\\w]+$'),
+                                error_messages = {'invalid': "Enter valid username. Allowed only letters, numbers and characters _ \\"})
+    password = forms.CharField(label='Password', widget=forms.PasswordInput, required=True, min_length=3, max_length=30)
 
     class Meta:
         model = HostNames
@@ -46,9 +47,9 @@ class LoginForm(forms.ModelForm):
         '''Overriding save to allow 
         '''
         user = super(LoginForm, self).save(commit=False)
-        user.set_password(self.cleaned_data['password'])
         if commit:
             # Adding hostname to the db
             user.hostname = str(urlparse(user.url).hostname)
             user.save()
         return user
+    

@@ -115,11 +115,11 @@ $(document).ready(function(){
 		rules: {
         	  // password and login are the names of element (e.i attr name)
         	  password: {
-    			minlength: 6,
+    			minlength: 3,
     			required: true
     		  },
     		  username: {
-    		  		minlength: 6,
+    		  		minlength: 3,
     				required: true,
     		  },
     		  url: {

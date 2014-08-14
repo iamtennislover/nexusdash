@@ -129,6 +129,7 @@
     {# </content> #}
 	
     {# <js> #}
+    {% block dashboard_specific_js %}<script src="{% static ''|add:SITE_NAME|add:'/js/dashboard.index.js' %}" type="text/javascript"></script>{% endblock dashboard_specific_js %}
     {% block base_homepage_extra_script %}
     <!-- JQuery Validate - For Login/Signup Validation -->
     <script src="{% static ''|add:SITE_NAME|add:'/js/jquery.validate.min.js' %}" type="text/javascript"></script>

@@ -19,9 +19,14 @@ Features
 
 - Make your own Django App Plugin and easily add to this website
   
+- Cross platform application (Windows and Unix supported)
 
-Installation
-============
+- Uses Celery to allow asynchronously polling devices
+
+
+Installation (Unix)
+===================
+
 1) Install Dependencies using Conda
 -----------------------------------
 
@@ -52,9 +57,43 @@ Follow these CLI commands to run the Django Server::
     $ source activate nexusdash
     $ # Key can be any string
     $ export SECRET_KEY=asdaduy7683ybhby
+    $ 
+    $ # Set Django Setting, to run in production env, use nexusdash.settings.production
+    $ export DJANGO_SETTINGS_MODULE=nexusdash.settings.local
+    $ 
+    $ # Sync Database and create root admin account
+    $ python manage.py syncdb
+    $ 
     $ # To run in Development env
-    $ python manage.py runserver 0.0.0.0:5555 --noreload --settings="nexusdash.settings.local"
-    $
+    $ python manage.py runserver 0.0.0.0:5555 --noreload
+    $ 
     $ # To run in Production env
-    $ python manage.py runserver 0.0.0.0:5555 --noreload --settings="nexusdash.settings.production"
+    $ python manage.py runserver 0.0.0.0:5555 --noreload
     
+
+
+3) Start Celery for polling
+---------------------------
+
+Follow these CLI commands to start Celery::
+
+    $ source activate nexusdash
+    $ # Key can be any string
+    $ export SECRET_KEY=asdaduy7683ybhby
+    $ 
+    $ # Set Django Setting, to run in production env, use nexusdash.settings.production
+    $ export DJANGO_SETTINGS_MODULE=nexusdash.settings.local
+    $ 
+    $ cd \path\to\nexusdash-with-manage.py
+    $ 
+    $ # Start Periodic polling
+    $ celery -A nexusdash beat
+    $ 
+    $ # Start celery
+    $ celery -A nexusdash worker -l info
+    
+    
+4) Navigate to website
+----------------------
+
+Enjoy!!

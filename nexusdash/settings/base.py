@@ -296,10 +296,10 @@ INSTALLED_APPS += (
 from celery.schedules import crontab
 
 CELERYBEAT_SCHEDULE = {
-    'poll_nexus-every-minute': {
-        'task': 'cpu_app.tasks.poll_nexus',
+    'poll_intstats-every-minute': {
+        'task': 'dashboardperdevice.tasks.poll_intstats',
         'schedule': crontab(minute='*'),
-        #'args': (16, 16)
+        # 'args': (None,),
     },
 }
 CELERY_TIMEZONE = 'UTC'
@@ -321,17 +321,15 @@ D3_PY_TIME_DIFF = 1000
 INSTALLED_APPS += (
     'hostnames',
 )
+AESKEY = "0zB-ODK%{='fQ)bJ4{sHTfv.@)/Y0Vk^"
 ########## END HOSTNAMES CONFIGURATION
-
-########## CPUAPP CONFIGURATION
-INSTALLED_APPS += (
-    'cpu_app',
-)
-########## END CPUAPP CONFIGURATION
 
 ########## DASHBOARDPERDEVICE CONFIGURATION
 INSTALLED_APPS += (
     'dashboardperdevice',
 )
+POLLING_METHOD_CLI = 'routercli'    # Default
+POLLING_METHOD_NXAPI = 'nxapi'
+POLLING_INTERVAL_DEFAULT = 60.0     # Float, in seconds
 ########## END DASHBOARDPERDEVICE CONFIGURATION
 ####################  END MY APPS CONFIGURATION

@@ -10,7 +10,7 @@ dashboard.getHostnames = function () {
         destroy_dataTable("table-hostnames");
         $("#filter-hostnames").val("").off("keyup");
 		// Add the HTML coming from JSON
-		$("#table-hostnames tbody").html(data);
+		$("#table-hostnames tbody").html(data.data);
         var hostnamesTable = $("#table-hostnames").dataTable({
             bPaginate: true,
             sPaginationType: "full_numbers",

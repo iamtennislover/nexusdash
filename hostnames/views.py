@@ -2,6 +2,7 @@ from django.views.generic import FormView
 from django.http import HttpResponse
 from .forms import LoginForm
 from .models import HostNames
+from .tasks import poll_healthinfo
 import json
 
 class HostNamesView(FormView):
@@ -43,7 +44,7 @@ class HostNamesView(FormView):
             #cd = form.cleaned_data
             #print 'cleaned_data: {0}...'.format(repr(cd))
             context['success'] = 'Login Successful'
-            user = form.save()
+            user = form.save()      # user is the models.HostNames object
         else:
             context['errors'] = dict([(k, [unicode(e) for e in v]) for k,v in form.errors.items()])
             user = None
@@ -51,7 +52,9 @@ class HostNamesView(FormView):
             #print msg
             
         if user:
-            context['hostname'] = user.hostname
+            hostname = user.hostname
+            context['hostname'] = hostname
+            poll_healthinfo.delay(hostname)
         return HttpResponse(json.dumps(context), content_type="application/json")
     
 hostnames_page = HostNamesView.as_view()

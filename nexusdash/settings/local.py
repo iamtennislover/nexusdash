@@ -64,9 +64,3 @@ INTERNAL_IPS = ('127.0.0.1', )
 ########## END TOOLBAR CONFIGURATION
 
 TIME_ZONE = 'America/Denver'       # Use 'Asia/Calcutta' when running the server in India
-
-########## TESTAPP CONFIGURATION
-INSTALLED_APPS += (
-    'test_app',
-)
-########## END TESTAPP CONFIGURATION

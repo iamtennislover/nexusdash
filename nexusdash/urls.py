@@ -16,7 +16,7 @@ urlpatterns = patterns('',
     url('', include('hostnames.urls')),
     url('', include('dashboardperdevice.urls')),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^query/', run_query),
+    url(r'^((?P<hostname>[\w.]+)/dash/)?query/', run_query),
     # url('^test/', include('test_app.urls')),
     # url('^cpu/', include('cpu_app.urls')),
 )
