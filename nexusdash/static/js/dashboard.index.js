@@ -7,11 +7,12 @@
 
 dashboard.getHostnames = function () {
     moduleData("hostnames", function (data) {
-        destroy_dataTable("table-hostnames");
+        // destroy_dataTable("table-hostnames");	// Replacing this with "bRetrieve: true" because spinner row
         $("#filter-hostnames").val("").off("keyup");
 		// Add the HTML coming from JSON
 		$("#table-hostnames tbody").html(data.data);
         var hostnamesTable = $("#table-hostnames").dataTable({
+        	bRetrieve: true,
             bPaginate: true,
             sPaginationType: "full_numbers",
             bFilter: true,

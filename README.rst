@@ -97,3 +97,14 @@ Follow these CLI commands to start Celery::
 ----------------------
 
 Enjoy!!
+
+
+Settings
+========
+
+1) Polling Interval
+-------------------
+
+- To change the interval at which the devices get polled periodically, change the variable CELERYBEAT_SCHEDULE in ./nexusdash/settings/base.py
+
+- Default value is every 30 minutes (e.i: '*/30')

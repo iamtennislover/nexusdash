@@ -298,7 +298,7 @@ from celery.schedules import crontab
 CELERYBEAT_SCHEDULE = {
     'poll_intstats-every-minute': {
         'task': 'dashboardperdevice.tasks.poll_intstats',
-        'schedule': crontab(minute='*'),
+        'schedule': crontab(minute='*/30'),
         # 'args': (None,),
     },
 }
